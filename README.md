@@ -1,6 +1,6 @@
 # Process Docs
 
-A reusable repository of Claude skills and templates for structured documentation projects. Clone it once, link the skills to your Claude configuration, and use the project starter to kick off any documentation engagement — factory process capture, customer research, technical architecture, or anything else that needs rigorous, consistent documentation.
+A reusable repository of Claude skills and templates for structured documentation projects. Skills live here alongside your projects — no global installation needed. Each project gets its own folder and its own git repo, while sharing the same skills and templates.
 
 ## Prerequisites
 
@@ -10,25 +10,25 @@ A reusable repository of Claude skills and templates for structured documentatio
 ## Installation
 
 ```bash
-# 1. Clone the repository
 git clone <your-repo-url> ~/process-docs
-
-# 2. Run the setup script to link skills to your Claude config
 cd ~/process-docs
-./setup.sh
 ```
 
-That's it. The setup script symlinks each skill file into `~/.claude/skills/` so Claude Code can find them in any project.
+That's it. Skills live in `skills/` and are available when you open this repo or any project within it in Claude Code.
 
 ## Starting a New Project
 
 ```bash
-# Copy the project starter to your working location
-cp -r ~/process-docs/project-starter ~/projects/my-new-project
+./setup.sh my-project-name
+```
 
-# Edit the project-level config
-cd ~/projects/my-new-project
+This copies the project starter into `projects/my-project-name/` and initializes a git repo for it. The `projects/` directory is gitignored — each project tracks its own history independently.
+
+Then edit the project config:
+
+```bash
 # Open CLAUDE.md and fill in the project description, glossary, and team info
+code projects/my-project-name/CLAUDE.md
 ```
 
 The project folder comes with:
@@ -38,39 +38,41 @@ The project folder comes with:
 
 ## Updating Skills
 
-When skills are improved in this repository, pull the latest and re-run setup:
+When skills are improved, just pull:
 
 ```bash
 cd ~/process-docs
 git pull
-./setup.sh
 ```
 
-Existing symlinks will be detected and you'll be asked before overwriting.
+All projects in `projects/` automatically see the updated skills since they live in the parent repo.
 
 ## Team Usage
 
-Every team member clones the same repository and runs `setup.sh`. This gives everyone identical skills and templates, ensuring consistent documentation quality across projects.
+Every team member clones the same repository. They get identical skills, templates, and examples.
 
 ```bash
-# Each team member runs:
 git clone <your-repo-url> ~/process-docs
-cd ~/process-docs && ./setup.sh
+cd ~/process-docs
+./setup.sh their-project-name
 ```
+
+For collaborating on the same project, team members share that project's git repo separately.
 
 ## Repository Structure
 
 ```
 process-docs/
 ├── README.md                      # This file
-├── setup.sh                       # Links skills to ~/.claude/skills/
-├── skills/                        # Universal skills (linked to ~/.claude/skills/)
+├── setup.sh                       # Creates new projects from the starter
+├── .gitignore                     # Ignores projects/ directory
+├── skills/                        # Skills (available to all projects)
 │   ├── documentation-writer.md
 │   ├── documentation-reviewer.md
 │   ├── observation-capture.md
 │   ├── process-mapping.md
 │   └── solution-design.md
-├── project-starter/               # Copy this folder to start a new project
+├── project-starter/               # Template copied for each new project
 │   ├── CLAUDE.md
 │   ├── templates/
 │   ├── 00-inbox/
@@ -79,9 +81,12 @@ process-docs/
 │   ├── 30-analysis/
 │   ├── 40-solution-design/
 │   └── 50-review-logs/
-└── examples/                      # Filled-in examples for reference
-    ├── observation-example.md
-    └── process-example.md
+├── examples/                      # Filled-in examples for reference
+│   ├── observation-example.md
+│   └── process-example.md
+└── projects/                      # Your projects (gitignored, each has own git)
+    ├── rg-faith/
+    └── ultra-tech-bm-materials/
 ```
 
 ## Skills Overview
